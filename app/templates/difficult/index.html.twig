@@ -1,0 +1,74 @@
+{# templates/home/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Le Jeu Motus{% endblock %}
+
+{% block body %}
+    <h1>Le Jeu Motus</h1>
+
+    <p>Choisissez une difficulté</p>
+
+    <div class="game-header">
+    <a href="{{ path('home') }}" class="btn btn-primary btn-retour">Retour au menu principal</a>
+    </div>
+
+    <a href="/facile" class="btn btn-facile">Facile</a><br>
+    <p>Devinez le mot en moin de <b>3 minutes</b></p>
+     <a href="/normal" class="btn btn-normal">Normal</a><br>
+     <p>Devinez le mot en moin de <b>1 minute 30 secondes</b></p>
+     <a href="/difficile" class="btn btn-difficile">Difficile</a><br>
+     <p>Devinez le mot en moin de <b>1 minute</b></p>
+     <a href="/expert" class="btn btn-expert">Expert</a><br>
+     <p>Devinez le mot en moin de <b>30 secondes</b></p>
+
+
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #4a86ba;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: #d1b31f;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d11f1f;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+{% endblock %}
