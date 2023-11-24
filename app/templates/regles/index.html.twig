@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règles du Jeu</title>
+</head>
+<body>
+    <a href="{{ path('home') }}" class="btn btn-primary btn-retour">Retour</a>
+    <h1>Règles du Jeu</h1>
+
+    <section>      
+        <p>Pour ceux qui ne connaissent pas, il s'agit d'un célèbre jeu télévisé du service public dont le but est de retrouver des mots de 6, 7 ou 8 lettres.
+
+La 1ère lettre du mot mystère est affichée. Le but est de trouver le mot en un minimum de coups sans dépasser 6 tentatives ou la partie est perdue.
+
+A chaque tentative, les lettres bien placées sont entourées de rouge et celles mal placées de jaune. Les mots mal orthographiés ou absents du dictionnaire apparaissent en minuscules.
+
+Astuce, un décompte du nombre de lettres restantes s'affiche à droite du champ de saisie.</p>
+    </section>
+
+</body>
+</html>
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #4a86ba;
+            color: #333;
+            margin: 0;
+            padding: 100px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: #d1b31f;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d11f1f;
+        }
+    </style>
+
+{% endblock %}

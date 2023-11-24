@@ -2,35 +2,56 @@
 // src/Controller/HomeController.php
 
 namespace App\Controller;
+use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\DriverManager;
+use App\Entity\Likes;
+use Symfony\Component\HttpFoundation\JsonResponse; 
 
-use App\Repository\ArticleRepository;
-use App\Entity\Article;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/home', name: 'home')]
     public function index(
-        ArticleRepository $articleRepository
     ): Response
     {
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'articles' => $articleRepository->findAll(),
         ]);
     }
 
     #[Route('/difficult', name: 'difficult')]
     public function difficult(
-        ArticleRepository $articleRepository
+        
     ): Response
     {
         return $this->render('difficult/index.html.twig', [
             'controller_name' => 'HomeController',
-            'articles' => $articleRepository->findAll(),
+            
+        ]);
+    }
+    #[Route('/compte', name: 'compte')]
+    public function compte(
+        
+    ): Response
+    {
+        return $this->render('account/edit_username.html.twig', [
+            'controller_name' => 'HomeController',
+            
+        ]);
+    }
+    #[Route('/modifier_utilisateur', name: 'modifier_utilisateur')]
+    public function modifier_utilisateur(
+
+    ): Response
+    {
+        return $this->render('modifier_utilisateur/index.html.twig', [
+            'controller_name' => 'HomeController',
+
         ]);
     }
 
@@ -113,29 +134,106 @@ class HomeController extends AbstractController
                 ]);
         
                 }
+            #[Route('/regles', name:'regles')]
+                public function regles(
 
-    #[Route('/game/submit', name: 'game_submit', methods: ['POST'])]
-    public function submit(Request $request): Response {
+                ): Response
+                {
+                    return $this->render('regles/index.html.twig', [
+                    ]);
+
+                }
+                #[Route('/wordday', name:'wordday')]
+        public function wordday (
+        
+        ): Response
+        {
+    
+            $randomWord = $this->generateRandomWord();
+            $wordLength = strlen($randomWord);
+    
+            return $this->render('wordday/index.html.twig', [
+                'randomWord' => $randomWord,
+                'wordLength' => $wordLength,
+            ]);
+    
+            }
+
+        #[Route('/worddaygame', name:'worddaygame')]
+            public function worddaygame (
+
+            ): Response
+            {
+
+                $randomWord = $this->generateRandomWord();
+                $wordLength = strlen($randomWord);
+
+                return $this->render('worddaygame/index.html.twig', [
+                    'randomWord' => $randomWord,
+                    'wordLength' => $wordLength,
+                ]);
+
+                }
+
+        #[Route('/calendrier', name:'calendrier')]
+            public function calendrier (
+            
+            ): Response
+            {
+
+                $randomWord = $this->generateRandomWord();
+                $wordLength = strlen($randomWord);
+
+                return $this->render('calendrier/index.html.twig', [
+                    'randomWord' => $randomWord,
+                    'wordLength' => $wordLength,
+                ]);
+
+                }
+
+        #[Route('//process-like/{word}', name:'process_like')]
+        public function processLike($word, EntityManagerInterface $entityManager): Response
+        {
+        $likesRepository = $entityManager->getRepository(Likes::class);
+        $like = $likesRepository->findOneBy(['word' => $word]);
+
+        if ($like) {
+            // Le mot existe, incrémenter le champ "number_of_likes"
+            $like->setNumberOfLikes($like->getNumberOfLikes() + 1);
+        } else {
+            // Le mot n'existe pas, créer un nouvel enregistrement
+            $like = new Likes();
+            $like->setWord($word);
+            $like->setNumberOfLikes(1);
+            $entityManager->persist($like);
+        }
+
+        $entityManager->flush();
+
+        
+
+        return $this->redirectToRoute('home'); // Remplacez 'accueil' par le nom de votre route d'accueil
+        }
+
+        private function getNumberOfLikes($word): int
+        {
+        $likeRepository = $this->getDoctrine()->getRepository(Likes::class);
+        $like = $likeRepository->findOneBy(['word' => $word]);
+
+        return $like ? $like->getNumberOfLikes() : 0;
+        }
+
+        #[Route('/game/submit', name: 'game_submit', methods: ['POST'])]
+        public function submit(Request $request): Response {
             // Récupérez les lettres du formulaire et traitez la logique du jeu
             // ...
 
             // Redirigez vers la page du jeu ou affichez les résultats
-    }
-    #[Route('/compte', name:'compte')]
-            public function compte  (
-            
-            ): Response
-            {       
-                return $this->render('compte/index.html.twig', [
-                    'controller_name' => 'HomeController',
-                    
-                ]); 
-                }
+        }
 
-
-
-    private function generateRandomWord(): string
+    /*private function generateRandomWord(): string
     {
+        
         $words = [
             'MOTUS','PAILLE','LIVRET', 'APAGNAN',"MAISON", "ARBRE", "SOLEIL", "VOITURE", "ORDINATEUR", "LIVRE", "TABLE", "CHAISE", "FENETRE", "PORTE",
             "CHAT", "CHIEN", "OISEAU", "POISSON", "TELEPHONE", "SAC", "STYLO", "PAPIER", "LUMIÈRE", "EAU",
@@ -158,7 +256,25 @@ class HomeController extends AbstractController
 
         // Choisir un mot aléatoire parmi la liste filtrée
         return $words[array_rand($words)];
-    }
+    }*/
 
+    public function generateRandomWord(): String
+    {
+        $apiUrl = 'https://trouve-mot.fr/api/random'; 
+
+        $client = new Client();
+        $response = $client->request('GET', $apiUrl);
+
+        $data = json_decode($response->getBody(), true);
+
+        // Supposez que l'API retourne un tableau avec la clé "name"
+        $randomWord = $data[0]['name'];
+
+        return $randomWord;
+    }
 }
+
+
+    
+
 ?>

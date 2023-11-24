@@ -1,20 +1,15 @@
-{# templates/game/index.html.twig #}
+{# templates/calendar/index.html.twig #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Motus - Jeu{% endblock %}
+{% block title %}Calendrier{% endblock %}
 
 {% block body %}
-<div class="game-container">
-    <h1 class="game-title">Le Jeu Motus</h1>
-    <p><b>Classique</b></p>
-    <div class="game-header">
-        <a href="{{ path('home') }}" class="btn btn-primary btn-retour">Retour</a>
-        <a href="{{ path('game') }}" class="btn btn-primary btn-rejouer" style="display: none;">Rejouer</a>
 
-        <a href="{{ path('process_like', {'word': randomWord}) }}" class="btn btn-primary btn-like" style="display: none;">Like</a>
+    <br><a href="/calendrier" class="btn btn-primary btn-calendar">Afficher le calendrier</a>
+    <h5 style="text-align: center;"><b>Mot du {{ "now"|date("d-m-y") }}</b></h5><br>
+    <a href="{{ path('home') }}" class="btn btn-primary btn-retour">Retour</a>
 
-    </div>
     <form method="post" action="{{ path('game_submit') }}">
 
         <div class="grid">
@@ -137,8 +132,6 @@ function isAllowedLetter(letter) {
                 gameEnded = true; // Définir la variable gameEnded à true
                 const btnRejouer = document.querySelector('.btn-rejouer');
                 btnRejouer.style.display = 'block';
-                const btnLike = document.querySelector('.btn-like');
-                btnLike.style.display = 'block';
                 inputs.forEach(input => {
                     input.disabled = true; // Désactiver tous les champs d'entrée
         });
@@ -223,8 +216,6 @@ function isAllowedLetter(letter) {
                     document.getElementById('congratulations-message').style.display = 'block';
                     document.querySelector('.btn-rejouer').style.display = 'block';
                     inputs.forEach(input => input.disabled = true);
-                    document.querySelector('.btn-like').style.display = 'block';
-                    inputs.forEach(input => input.disabled = true);
                     for (let col = 1; col <= wordLength; col++) {
                         let input = document.querySelector(`#cell-${currentAttempt}-${col}`);
                         input.style.backgroundColor = 'red';
@@ -245,6 +236,12 @@ function isAllowedLetter(letter) {
 {% block stylesheets %}
 <style>
 
+
+    .btn-calendar {
+        align-self: flex-start;
+        background-color: #d1b31f;
+    }
+
     .round-yellow {
         border-radius: 50%; /* Bordure arrondie */
     }
@@ -255,25 +252,15 @@ function isAllowedLetter(letter) {
         border-radius: 50%; /* Bordure arrondie */
     }
 
-   /* Styles généraux */
-    html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #4a86ba; /* Votre couleur de fond bleue */
-}
-
-/* Styles généraux */
-.game-container {
-    font-family: 'Arial', sans-serif;
-    background-color: #4a86ba; /* Assurez-vous que cette couleur correspond au reste du fond */
-    color: #333;
-    margin: 0; /* Assurez-vous que la marge est définie à 0 */
-    padding: 100px;
-    text-align: center;
-    min-height: 100%; /* Pour s'assurer que le conteneur s'étend à toute la hauteur */
-    box-sizing: border-box; /* Pour que le padding ne dépasse pas la hauteur et la largeur définies */
-}
+    /* Styles généraux */
+    .game-container {
+        font-family: 'Arial', sans-serif;
+        background-color: #4a86ba;
+        color: #333;
+        margin: 0;
+        padding: 100px;
+        text-align: center;
+    }
     
     /* Style du titre */
     .game-title {
@@ -296,11 +283,6 @@ function isAllowedLetter(letter) {
     }
 
     .btn-rejouer {
-        align-self: flex-start;
-        background-color: #d1b31f;
-    }
-
-    .btn-like {
         align-self: flex-start;
         background-color: #d1b31f;
     }

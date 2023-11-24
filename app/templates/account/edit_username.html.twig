@@ -1,0 +1,115 @@
+{# templates/account/edit_username.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<a href="{{ path('home') }}" class="rules-button">Retour au jeu</a>
+    <h1>Modifier le nom d'utilisateur</h1>
+   
+
+    {{ form_start(usernameForm) }}
+
+     {% if app.user %}
+
+    <input type="radio" id="avatar2" name="avatar" value="avatar2"{{ app.user.avatar == 'avatar2' ? ' checked' : '' }}>
+    <label for="avatar2"><img src="{{ asset('images/avatar/avatar2.png') }}" alt="Avatar 2" width="50"></label>
+
+
+    <input type="radio" id="avatar3" name="avatar" value="avatar3"{{ app.user.avatar == 'avatar3' ? ' checked' : '' }}>
+    <label for="avatar3"><img src="{{ asset('images/avatar/avatar3.png') }}" alt="Avatar 3" width="50"></label>
+
+    <input type="radio" id="avatar4" name="avatar" value="avatar4"{{ app.user.avatar == 'avatar4' ? ' checked' : '' }}>
+    <label for="avatar4"><img src="{{ asset('images/avatar/avatar4.png') }}" alt="Avatar 4" width="50"></label>
+
+    <input type="radio" id="avatar5" name="avatar" value="avatar5"{{ app.user.avatar == 'avatar5' ? ' checked' : '' }}>
+    <label for="avatar5"><img src="{{ asset('images/avatar/avatar5.png') }}" alt="Avatar 5" width="50"></label>
+
+    <input type="radio" id="avatar6" name="avatar" value="avatar6"{{ app.user.avatar == 'avatar6' ? ' checked' : '' }}>
+    <label for="avatar6"><img src="{{ asset('images/avatar/avatar6.png') }}" alt="Avatar 6" width="50"></label>
+
+    <input type="radio" id="avatar7" name="avatar" value="avatar7"{{ app.user.avatar == 'avatar7' ? ' checked' : '' }}>
+    <label for="avatar7"><img src="{{ asset('images/avatar/avatar7.png') }}" alt="Avatar 7" width="50"></label>
+
+    {% endif %}
+
+        {{ form_row(usernameForm.username) }}
+        {{ form_row(usernameForm.save) }}
+    {{ form_end(usernameForm) }}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4; /* couleur de fond légère */
+        color: #333; /* couleur de texte foncée */
+        margin: 0;
+        padding: 20px; /* espace autour du contenu */
+        text-align: center;
+    }
+
+    a.rules-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        background-color: #d1b31f;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    a.rules-button:hover {
+        background-color: #d11f1f;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    input[type=text],
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px; /* espace entre les champs */
+        margin-bottom: 10px; /* espace après le champ */
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: #d1b31f;
+        color: white;
+        font-size: 16px;
+        cursor: pointer; /* change le curseur en main quand vous survolez le bouton */
+        border: none;
+    }
+
+    button:hover {
+        background-color: #d11f1f;
+    }
+
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+

@@ -7,18 +7,31 @@
 {% block body %}
 
 {% if app.user %}
-        <div class="mb-3">
-            <a href="{{ path('compte',{username: app.user.userIdentifier}) }}" class="btn btn-primary btn-retour">{{ app.user.userIdentifier }}</a>
-        </div>
+<div class="header-container">
+    <div class="avatar-container">
+        <a href="{{ path('account_edit_username', {'id': app.user.id}) }}">
+            <img src="{{ asset('images/avatar/' ~ app.user.avatar ~ '.png') }}" alt="{{ app.user.avatar }}">
+        </a>
+        <a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a><br>
+    </div>
+    
+</div>
     {% endif %}
-
-    <h1>Le Jeu Motus</h1>
+<h1>Le Jeu Motus</h1>
     <a href="/game" class="btn btn-primary">Classique</a>
      <p>Devine autant de mot que tu veux</p>
-     <a href="/difficult" class="btn btn-primary">Contre la montre</a>
+    <a href="/difficult" class="btn btn-primary">Contre la montre</a>
      <p>Devine le mot avant le temps imparti</p>
+     <a href="/wordday" class="btn btn-primary">Mot mystère du jour</a>
+     <p>Devine le mot du jour</p>
+    <a href="/friends" class="btn btn-primary">Ajouter un ami</a>
+
+     <a href="{{ path('regles') }}" class="rules-button">
+    <span>?</span></a>
 
 {% endblock %}
+
+
 
 {% block stylesheets %}
     <style>
@@ -27,7 +40,7 @@
             background-color: #4a86ba;
             color: #333;
             margin: 0;
-            padding: 100px;
+            padding: 30px;
             text-align: center;
         }
 
@@ -56,6 +69,58 @@
         .btn:hover {
             background-color: #d11f1f;
         }
+                /* Assurez-vous que le parent direct de l'avatar a une position relative */
+        /* si vous utilisez position: absolute; pour que l'avatar soit positionné par rapport à ce parent */
+        .header-container {
+            position: relative;
+        }
+
+        /* Style pour l'avatar */
+        .avatar-container {
+            position: absolute; /* ou fixed si vous voulez qu'il reste en place lors du défilement */
+            top: 0px; /* en haut de la fenêtre/conteneur */
+            right: 0px; /* à droite de la fenêtre/conteneur */
+            z-index: 10; /* S'assurer qu'il est au-dessus des autres éléments */
+        }
+
+        /* Assurez-vous que le lien de l'avatar n'a pas de décoration de texte par défaut */
+        .avatar-container a {
+            text-decoration: none;
+        }
+
+        /* Style pour l'image de l'avatar elle-même */
+        .avatar-container img {
+            border-radius: 50%; /* Rendre l'image ronde si vous voulez */
+            width: 60px; /* ou la taille que vous voulez */
+            height: auto; /* maintenir le ratio aspect */
+        }
+        .rules-button {
+        position: fixed; /* Positionnement fixe par rapport à la fenêtre du navigateur */
+        bottom: 30px; /* Positionné à 30px du bas de la page */
+        right: 30px; /* Positionné à 30px de la droite de la page */
+        width: 50px; /* Largeur du bouton */
+        height: 50px; /* Hauteur du bouton */
+        background-color: #d1b31f; /* Couleur de fond jaune-or */
+        color: white; /* Couleur du texte blanc */
+        border: none; /* Aucune bordure */
+        border-radius: 50%; /* Bordure arrondie à 50% pour faire un cercle parfait */
+        font-size: 24px; /* Taille du texte */
+        line-height: 50px; /* Hauteur de ligne pour centrer verticalement le texte dans le bouton */
+        text-align: center; /* Alignement du texte au centre */
+        text-decoration: none; /* Aucune décoration de texte */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ombre portée pour un effet de profondeur */
+        cursor: pointer; /* Curseur en forme de main lors du survol */
+        z-index: 1000; /* S'assure que le bouton est au-dessus des autres éléments */
+    }
+
+    .rules-button:hover {
+        background-color: #d11f1f; /* Couleur de fond lors du survol */
+    }
+
+    .rules-button span {
+        display: block; /* Assurez-vous que le span est un bloc pour appliquer la largeur et la hauteur */
+    }
+
     </style>
 
 {% endblock %}

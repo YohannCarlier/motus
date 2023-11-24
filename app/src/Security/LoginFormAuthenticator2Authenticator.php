@@ -14,6 +14,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
 
 class LoginFormAuthenticator2Authenticator extends AbstractLoginFormAuthenticator
 {
@@ -44,12 +46,21 @@ class LoginFormAuthenticator2Authenticator extends AbstractLoginFormAuthenticato
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+        // Check if the user has the admin role
+        if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
+            // Redirect to the admin dashboard
+            return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+        }
+
+    // Redirect to some other page if the user is not an admin
+    //return new RedirectResponse($this->urlGenerator->generate('some_other_route'));
 
         // For example:
         // return new RedirectResponse($this->urlGenerator->generate('some_route'));
         return new RedirectResponse($this->urlGenerator->generate('home'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
+    
 
     protected function getLoginUrl(Request $request): string
     {

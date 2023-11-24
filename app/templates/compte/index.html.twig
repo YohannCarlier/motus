@@ -1,0 +1,82 @@
+{% if app.user %}
+    <!-- Section pour afficher l'avatar de l'utilisateur -->
+    <center>
+    <div class="mb-3">
+        <a href="{{ path('compte', {id: app.user.id}) }}">
+            <img src="{{ asset('images/avatar/' ~ app.user.avatar ~ '.png') }}" alt="{{ app.user.avatar }}" width="100">
+        </a>
+    </div>
+
+    <!-- Section pour afficher et modifier les informations de l'utilisateur -->
+    <div class="user-info">
+        <h2>{{ app.user.username }}</h2>
+        <!-- Afficher d'autres informations de l'utilisateur au besoin -->
+
+        <!-- Formulaire pour modifier le nom d'utilisateur et le mot de passe -->
+        <form action="{{ path('modifier_utilisateur') }}" method="post">
+            {# {{ csrf_token('modifier_utilisateur') }} #}
+
+            <!-- Champ pour le nouveau nom d'utilisateur -->
+            <div class="champ">
+            <label for="new_username">Nouveau nom d'utilisateur :</label><br><br>
+            <input type="text" id="new_username" name="new_username" value="{{ app.user.username }}" required>
+            </div>
+            {# <!-- Champ pour le nouveau mot de passe -->
+            <div class="champ">
+            <label for="new_password">Nouveau mot de passe :</label><br>
+            <input type="password" id="new_password" name="new_password" required><br><br>
+            </div>
+
+             <div class="champ">
+            <!-- Champ pour la confirmation du nouveau mot de passe -->
+            <label for="confirm_new_password">Confirmer le nouveau mot de passe :</label><br><br>
+            <input type="password" id="confirm_new_password" name="confirm_new_password" required><br>
+            </div> #}
+
+            <!-- Bouton de soumission du formulaire -->
+            <button class="btn btn-primary" type="submit">Modifier</button>
+        </form>
+    </div>
+    </center>
+{% endif %}
+
+<!-- Bloc pour les styles -->
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #4a86ba;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .champ{
+                padding:40px;
+        }
+
+        .user-info {
+            background-color: #fff;
+            padding: 20px;
+            width:50%;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: #d1b31f;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d11f1f;
+        }
+
+        /* Ajouter plus de styles au besoin pour une meilleure apparence */
+    </style>
+{% endblock %}

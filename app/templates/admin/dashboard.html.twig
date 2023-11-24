@@ -1,0 +1,84 @@
+{# templates/admin/dashboard.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<a href="{{ path('app_logout') }}">Logout</a>
+<h1>Dashboard Admin</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Actions</th>
+    </tr>
+    
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>
+            {% if 'ROLE_ADMIN' not in user.roles %}
+            <form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+            {% else %}
+            Admin
+            {% endif %}
+        </td>
+    </tr>
+
+
+
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% endfor %}
+
+    {% endblock %}
+
+
+    {% block stylesheets %}
+<style>
+    /* Styles pour le tableau */
+    table {
+        width: 100%; /* Pleine largeur */
+        border-collapse: collapse; /* Les bordures des cellules sont fusionnées */
+    }
+
+    th, td {
+        border: 1px solid #ddd; /* Bordure des cellules */
+        padding: 8px; /* Espacement interne des cellules */
+        text-align: left; /* Alignement du texte à gauche */
+    }
+
+    th {
+        background-color: #4a86ba; /* Fond vert pour les en-têtes */
+        color: white; /* Texte blanc pour les en-têtes */
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Fond gris pour les lignes paires */
+    }
+
+    tr:hover {
+        background-color: #ddd; /* Surbrillance au survol */
+    }
+
+    .btn-danger {
+        color: white; /* Texte blanc pour les boutons */
+        background-color: red; /* Fond rouge pour les boutons */
+        border: none; /* Pas de bordure pour les boutons */
+        padding: 5px 10px; /* Espacement interne pour les boutons */
+        text-align: center; /* Alignement du texte des boutons */
+        text-decoration: none; /* Pas de soulignement pour le texte des boutons */
+        display: inline-block; /* Les boutons s'affichent sur la même ligne */
+        margin: 4px 2px; /* Marge externe des boutons */
+        cursor: pointer; /* Curseur en forme de main au survol */
+    }
+</style>
+{% endblock %}

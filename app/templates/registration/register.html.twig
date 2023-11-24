@@ -5,15 +5,129 @@
 {% block body %}
     <h1>Création De Compte</h1>
 
+
+
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
+
+
+    
+    <div class="avatar">
+    <input type="radio" id="avatar2" name="avatar" value="avatar2" checked>
+    <label for="avatar2"><img src="{{ asset('images/avatar/avatar2.png') }}" alt="Avatar 2" width="50"></label>
+
+    <input type="radio" id="avatar3" name="avatar" value="avatar3">
+    <label for="avatar3"><img src="{{ asset('images/avatar/avatar3.png') }}" alt="Avatar 3" width="50"></label>
+
+    <input type="radio" id="avatar4" name="avatar" value="avatar4">
+    <label for="avatar4"><img src="{{ asset('images/avatar/avatar4.png') }}" alt="Avatar 4" width="50"></label>
+
+    <input type="radio" id="avatar5" name="avatar" value="avatar5">
+    <label for="avatar5"><img src="{{ asset('images/avatar/avatar5.png') }}" alt="Avatar 5" width="50"></label>
+
+    <input type="radio" id="avatar6" name="avatar" value="avatar6">
+    <label for="avatar6"><img src="{{ asset('images/avatar/avatar6.png') }}" alt="Avatar 6" width="50"></label>
+
+    <input type="radio" id="avatar7" name="avatar" value="avatar7">
+    <label for="avatar7"><img src="{{ asset('images/avatar/avatar7.png') }}" alt="Avatar 7" width="50"></label>
+
+    
+</div>
+
+    <br>
         {{ form_row(registrationForm.username) }}
+
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
+        j'ai déja un compte <br>
+        <a href="{{ path('app_login') }}">Se connecter</a><br>
+
         <button type="submit" class="btn">Valider</button>
     {{ form_end(registrationForm) }}
+{% endblock %}
+
+
+{% block stylesheets %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .avatar {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .avatar input[type="radio"] {
+        display: none; /* Cacher les radios par défaut */
+    }
+
+    .avatar label {
+        cursor: pointer; /* Cursor en forme de main sur les images */
+        margin: 0 10px; /* Espacement autour des images */
+    }
+
+    .avatar label img {
+        opacity: 0.6; /* Rendre les images légèrement transparentes */
+        transition: opacity 0.3s ease; /* Transition pour l'opacité */
+    }
+
+    .avatar input[type="radio"]:checked + label img {
+        opacity: 1; /* Rendre l'image sélectionnée complètement opaque */
+        border: 2px solid #007bff; /* Ajouter une bordure à l'image sélectionnée */
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3; /* Assombrir le bouton lors du survol */
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 300px; /* Largeur fixe pour tous les champs textuels */
+    }
+
+    input[type="checkbox"] {
+        margin-right: 5px;
+    }
+</style>
 {% endblock %}

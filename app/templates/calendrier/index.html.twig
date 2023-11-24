@@ -1,0 +1,122 @@
+{# templates/another_page.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier{% endblock %}
+
+{% block body %}
+<div class="game-container">
+    {# Obtenez la première date du mois actuel #}
+    {% set firstDayOfMonth = "now"|date_modify('first day of this month') %}
+    
+    <h2 class="calendar-month" style="text-align: center;">{{ firstDayOfMonth|date("M Y")}}</h2>
+
+
+    <a href="{{ path('home') }}" class="btn btn-primary btn-retour">Retour</a>
+
+    <div class="centered-calendar">
+        <div class="grid">
+            {# Itérer sur les jours de la semaine #}
+            {% for day in ['Mer', 'Jeu', 'Ven', 'Sam', 'Dim', 'Lun', 'Mar'] %}
+                <div class="cell day-label">{{ day }}</div>
+            {% endfor %}
+
+            {# Itérer sur tous les jours du mois #}
+            {% for day in range(1, firstDayOfMonth|date("t")) %}
+                {# Calculer la date pour chaque jour #}
+                {% set date = firstDayOfMonth|date_modify('+' ~ (day - 1) ~ ' days') %}
+                {% set dayNumber = date|date("d") %}
+                {% set dayOfWeek = date|date("D") %}
+
+                {% set isFutureDate = "now"|date("Y-m-d") < date|date("Y-m-d") %}
+
+                <div class="cell">
+                    <a href="{{ path('worddaygame', { 'date': date|date("Y-m-d") }) }}"
+                       class="cell-link{{ dayNumber == "now"|date("d") ? ' current-day' }}{{ isFutureDate ? ' future-day' : '' }}"
+                       {% if isFutureDate %}onclick="return false;"{% endif %}>
+                       {{ dayNumber }}
+                        <a href="#" class="day-link" data-date="{{ date|date("Y-m-d") }}">
+                            
+                        </a>
+                    </a>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+    .future-day {
+            pointer-events: none;
+            color: #999; /* Couleur grise pour indiquer que le jour n'est pas cliquable */
+        }
+
+    .game-container {
+            background-color: #c3d8e0;
+            margin: 0;
+            padding: 100px;
+
+        }
+
+    .current-day {
+            background-color: red;
+            color: white;
+        }
+
+    .centered-calendar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .calendar-month {
+        margin-bottom: 20px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+    }
+
+    .day-label,
+    .cell-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #007BFF;
+        margin: 1px;
+        font-size: 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .btn-retour {
+        align-self: flex-start;
+        background-color: #d1b31f;
+    }
+
+    .btn:hover {
+            background-color: #d11f1f;
+        }
+
+    .day-label {
+        font-weight: bold;
+    }
+
+    .cell-link:hover {
+        background-color: #d11f1f;
+    }
+    body {
+        background-color: #c3d8e0;
+    }
+</style>
+{% endblock %}
